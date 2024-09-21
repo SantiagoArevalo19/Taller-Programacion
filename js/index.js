@@ -1,18 +1,18 @@
-// Variables globales
-let actividades = [];
-let actividadIndexAEliminar = null; // Guardar el índice de la actividad a eliminar
 
-// Obtener referencias de los elementos
-const formActividad = document.getElementById('form-actividad');
-const tablaActividades = document.getElementById('tbody-actividades');
+let actividades = [];
+let actividadIndexAEliminar = null; //  este es para Guardar cada la actividad a eliminar y se declara el array
+
+// Obtener referencias de los elementos DOM
+const formActividad = document.getElementById('contenido-actividad');
+const tablaActividades = document.getElementById('tabla-actividades');
 const promedioSpan = document.getElementById('promedio');
 const estadoSpan = document.getElementById('estado');
 const modal = document.getElementById('modal');
 const actividadAEliminarSpan = document.getElementById('actividad-a-eliminar');
-const confirmarEliminarBtn = document.getElementById('confirmar-eliminar');
-const cancelarEliminarBtn = document.getElementById('cancelar-eliminar');
+const confirmarEliminarBtn = document.getElementById('moddsi');
+const cancelarEliminarBtn = document.getElementById('moddno');
 
-// Escuchar el envío del formulario
+//  envío del formulario aca se guarda lo que se ingresa a la tabla
 formActividad.addEventListener('submit', function (e) {
     e.preventDefault();
     const actividad = document.getElementById('actividad').value;
@@ -28,12 +28,12 @@ formActividad.addEventListener('submit', function (e) {
     actualizarTabla();
 });
 
-// Función para actualizar la tabla de actividades
+// actualizar la tabla de actividades
 function actualizarTabla() {
     // Limpiar la tabla
     tablaActividades.innerHTML = '';
 
-    // Recorrer las actividades y agregar las filas a la tabla
+    // aqui lo que se hace es recorrer las actividades y agregar las filas a la tabla
     actividades.forEach((actividad, index) => {
         const fila = document.createElement('tr');
         
@@ -41,7 +41,7 @@ function actualizarTabla() {
             <td>${actividad.actividad}</td>
             <td>${actividad.nota.toFixed(1)}</td>
             <td>
-                <button class="edit" onclick="editarActividad(${index})">Modificar</button>
+                <button class="edit" onclick="editarActividad(${index})">Modificar</button> 
                 <button class="delete" onclick="mostrarModal(${index})">Eliminar</button>
             </td>
         `;
@@ -53,31 +53,31 @@ function actualizarTabla() {
     actualizarPromedioYEstado();
 }
 
-// Función para mostrar el modal y solicitar confirmación de eliminación
+// mostrar el modal y solicitar confirmación de eliminación
 function mostrarModal(index) {
-    actividadIndexAEliminar = index; // Guardar el índice de la actividad a eliminar
+    actividadIndexAEliminar = index; // Guardar a eliminar
     const actividad = actividades[index].actividad;
     actividadAEliminarSpan.textContent = actividad; // Mostrar el nombre de la actividad en el modal
-    modal.style.display = 'flex'; // Mostrar el modal
+    modal.style.display = 'flex'; // Mostrar 
 }
 
-// Función para eliminar una actividad
+// ACA es eliminar 
 function eliminarActividad() {
     actividades.splice(actividadIndexAEliminar, 1); // Eliminar del array
     actualizarTabla(); // Actualizar la tabla
     cerrarModal(); // Cerrar el modal
 }
 
-// Función para cerrar el modal sin eliminar
+//  para cerrar el modal sin eliminar
 function cerrarModal() {
     modal.style.display = 'none'; // Ocultar el modal
 }
 
-// Escuchar los botones del modal
+//  botones del modal
 confirmarEliminarBtn.addEventListener('click', eliminarActividad);
 cancelarEliminarBtn.addEventListener('click', cerrarModal);
 
-// Función para editar una actividad
+// ACA es para modificar 
 function editarActividad(index) {
     const actividad = actividades[index];
     document.getElementById('actividad').value = actividad.actividad;
@@ -87,7 +87,7 @@ function editarActividad(index) {
     eliminarActividad(index);
 }
 
-// Función para calcular y actualizar el promedio y estado
+// ACA calcular y actualizar el promedio y estado
 function actualizarPromedioYEstado() {
     if (actividades.length === 0) {
         promedioSpan.textContent = '0';
@@ -95,13 +95,13 @@ function actualizarPromedioYEstado() {
         return;
     }
 
-    // Calcular el promedio
+   
     const sumaNotas = actividades.reduce((sum, actividad) => sum + actividad.nota, 0);
     const promedio = sumaNotas / actividades.length;
 
-    // Actualizar el promedio en la interfaz
+    // Actualizar el promedio para que se muestre en la pagina 
     promedioSpan.textContent = promedio.toFixed(1);
 
-    // Actualizar el estado en función del promedio
+    // Actualizar el promedio Xd
     estadoSpan.textContent = promedio >= 3.0 ? 'Aprobado' : 'No Aprobado';
 }
